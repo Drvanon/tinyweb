@@ -1,20 +1,21 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <map>
 #include <string>
+#include <vector>
 #include <functional>
 
 #include "request.h"
 #include "response.h"
+#include "route.h"
 
 namespace tinyweb {
     class Server {
         private:
-            std::map<std::string,std::function<Response(Request)>> routes;
+            std::vector<tinyweb::Route> routes;
         public:
             void run(std::string host, int port);
-            void add_route(std::string name, std::function<Response(Request)>);
+            void add_route(tinyweb::Route route);
     };
 }
 
