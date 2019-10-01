@@ -7,8 +7,15 @@
 
 int main(int argc, char const *argv[])
 {
-    tinyweb::Server server();
+    try {
+        boost::asio::io_context context;
 
-    std::cout << "YO" << std::endl;
+        tinyweb::Server server(context, 8080);
+        server.run();
+        context.run();
+    } catch (std::exception& e) {
+        std::cout << "Got error: " << e.what() << std::endl;
+    }
+
     return 0;
 }
