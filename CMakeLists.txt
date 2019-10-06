@@ -15,6 +15,8 @@ set(TINYWEB_SOURCES
     src/header.cpp
 )
 
+add_subdirectory(tests)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${Boost_INCLUDE_DIR})
 
 add_library(tinyweb ${TINYWEB_SOURCES})
