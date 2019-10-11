@@ -3,6 +3,8 @@
 
 #include <boost/asio.hpp>
 
+#include "header.h"
+
 #pragma once
 #include "server.fwd.h"
 #include "connection.fwd.h"
@@ -32,6 +34,8 @@ namespace tinyweb {
             const boost::system::error_code& error, 
             long unsigned int bytes_transferred
         );
+
+        void make_response (Request request);
     public:
         Connection(boost::asio::io_context& io_context_, tinyweb::Server *server);
         ~Connection();

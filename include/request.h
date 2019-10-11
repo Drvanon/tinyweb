@@ -5,9 +5,17 @@
 
 namespace tinyweb {
     class Request {
+        private:
+            Header* header;
+            std::string body;
         public:
-            tinyweb::Header* header;
-    };
-}
+            Request();
+            Request (Header* header_);
+            Request(Header* header, std::string body);
+            Header* get_header(); 
+            std::string get_body(); 
+            std::string str();
+    }; // class Request
+} // namespace tinyweb
 
 #endif // REQUEST_H

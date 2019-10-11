@@ -7,11 +7,6 @@
 
 using boost::asio::ip::tcp;
 
-std::string MESSAGE = "HTTP/1.1 200 No Content\r\n"
-"Content-length: 8\r\n"
-"\r\n"
-"Welcome!";
-
 namespace tinyweb {
     Connection::Connection(boost::asio::io_context& io_context, tinyweb::Server* server): 
       socket_(io_context), owner(server) {}
@@ -29,6 +24,7 @@ namespace tinyweb {
         Header* header = (new Header());
         header->parse(request_string);
 
+        Request* request = (new Request(header));        
         auto content_length_iter = header->get_header_fields().find("Content-Length");
         if (content_length_iter != header->get_header_fields().end()) {
             std::cout <<  "Got content length header" << std::endl;
@@ -60,6 +56,18 @@ namespace tinyweb {
             buffers_begin(input_stream.data()) + bytes_transferred
             );
         input_stream.consume(bytes_transferred);
+    }
+
+    void Connection::make_response (Request request) {
+        Response response = owner->run_route(request);
+        socket_.async_write_some(
+            boost::asio::buffer(request.str()), 
+            boost::bind(      
+                &Connection::handle_response, this,
+                boost::asio::placeholders::error, 
+                boost::asio::placeholders::bytes_transferred
+            )
+        );
     }
 
     void Connection::handle_response (const boost::system::error_code& error, long unsigned int bytes_transferred) {

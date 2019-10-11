@@ -12,7 +12,7 @@ namespace tinyweb {
         tinyweb::Header* headers;
 
         void set_mimetype(std::string type);
-        std::string get_response();
+        std::string str();
     };
 }
 

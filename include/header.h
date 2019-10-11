@@ -46,6 +46,7 @@ namespace tinyweb{
             std::string get_uri();
             METHODS get_method();
             std::map<std::string, std::string> get_header_fields();
+            std::string str();
     };
 }
 
