@@ -16,11 +16,16 @@ namespace tinyweb {
     private:
         tcp::socket socket_;
         tinyweb::Server *owner;
-        char request_header[MAX_REQUEST_HEADER];
+        boost::asio::streambuf input_stream;
 
         void handle_request (
             const boost::system::error_code& error, 
             long unsigned int bytes_transferred
+        );
+
+        void handle_request_body (
+            const boost::system::error_code& error, 
+            size_t bytes_transferred 
         );
 
         void handle_response (
