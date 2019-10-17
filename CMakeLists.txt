@@ -13,6 +13,8 @@ set(TINYWEB_SOURCES
     src/server.cpp
     src/request.cpp
     src/header.cpp
+    src/route.cpp
+    src/methods.cpp
 )
 
 add_subdirectory(tests)

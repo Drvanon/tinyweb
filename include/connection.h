@@ -4,6 +4,8 @@
 #include <boost/asio.hpp>
 
 #include "header.h"
+#include "request.h"
+#include "response.h"
 
 #pragma once
 #include "server.fwd.h"

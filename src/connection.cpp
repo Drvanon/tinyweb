@@ -19,20 +19,18 @@ namespace tinyweb {
             buffers_begin(input_stream.data()) + bytes_transferred
             );
         input_stream.consume(bytes_transferred);
-        std::cout << "Received request:\n" << request_string << "<ends here" << std::endl;
 
-        Header* header = (new Header());
+        RequestHeader* header = (new RequestHeader());
         header->parse(request_string);
 
         Request* request = (new Request(header));        
-        auto content_length_iter = header->get_header_fields().find("Content-Length");
-        if (content_length_iter != header->get_header_fields().end()) {
-            std::cout <<  "Got content length header" << std::endl;
+        auto content_length_iter = header->get_fields().find("Content-Length");
+        if (content_length_iter != header->get_fields().end()) {
             int content_length;
             try {
-                content_length = std::stoi(header->get_header_fields()["Content-Length"]);
+                content_length = std::stoi(header->get_fields()["Content-Length"]);
             } catch (...) {
-                std::cout << "Could not get proper content length." << std::endl;
+                std::cerr << "Could not get proper content length." << std::endl;
             }
             if (input_stream.in_avail() < content_length) {
                 socket_.async_read_some(
@@ -59,9 +57,9 @@ namespace tinyweb {
     }
 
     void Connection::make_response (Request request) {
-        Response response = owner->run_route(request);
+        Response* response = owner->run_route(request);
         socket_.async_write_some(
-            boost::asio::buffer(request.str()), 
+            boost::asio::buffer(response->str()), 
             boost::bind(      
                 &Connection::handle_response, this,
                 boost::asio::placeholders::error, 
@@ -71,7 +69,6 @@ namespace tinyweb {
     }
 
     void Connection::handle_response (const boost::system::error_code& error, long unsigned int bytes_transferred) {
-        std::cout << "Sent response" << std::endl;
     }
 
     void Connection::open(const boost::system::error_code& error) {

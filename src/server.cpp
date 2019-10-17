@@ -1,5 +1,7 @@
-#include "server.h"
 #include <iostream>
+
+#include "server.h"
+#include "route.h"
 
 namespace tinyweb {
     Server::Server(boost::asio::io_context& io_context, int port): 
@@ -17,5 +19,16 @@ namespace tinyweb {
         );
     }
 
-    void Server::add_route(tinyweb::Route route) {}
+    void Server::add_route(Route* route) {
+        routes.push_back(route);
+    }
+
+    Response* Server::run_route(Request request) {
+        for (Route* route: routes) {
+            if (route->match(request.get_uri())){
+                return route->run(request);
+            }
+        }
+        return nullptr;
+    }
 }

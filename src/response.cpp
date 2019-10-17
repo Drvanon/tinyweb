@@ -1,5 +1,5 @@
 #include "response.h"
 
-std::string tinyweb::Response::get_response () {
+std::string tinyweb::Response::str () {
     return "";
 }

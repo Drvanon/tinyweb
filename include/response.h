@@ -7,12 +7,13 @@
 
 namespace tinyweb {
     class Response {
-        int code;
-        std::string body;
-        tinyweb::Header* headers;
-
-        void set_mimetype(std::string type);
-        std::string str();
+        private:
+            int code;
+            std::string body;
+            ResponseHeader* headers;
+        public:
+            void set_mimetype(std::string type);
+            std::string str();
     };
 }
 

@@ -6,13 +6,14 @@
 namespace tinyweb {
     class Request {
         private:
-            Header* header;
+            RequestHeader* header;
             std::string body;
         public:
             Request();
-            Request (Header* header_);
-            Request(Header* header, std::string body);
-            Header* get_header(); 
+            Request(RequestHeader* header_);
+            Request(RequestHeader* header, std::string body);
+            RequestHeader* get_header();
+            std::string get_uri(); 
             std::string get_body(); 
             std::string str();
     }; // class Request

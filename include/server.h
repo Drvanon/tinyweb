@@ -19,7 +19,7 @@ using boost::asio::ip::tcp;
 namespace tinyweb {
     class Server {
         private:
-            std::vector<tinyweb::Route> routes;
+            std::vector<tinyweb::Route*> routes;
             boost::asio::io_context& io_context_;
             tcp::acceptor acceptor_;
             std::string host;
@@ -28,8 +28,8 @@ namespace tinyweb {
         public:
             Server(boost::asio::io_context& io_context, int port);
             void run();
-            void add_route(Route route);
-            Response run_route(Request request);
+            void add_route(Route* route);
+            Response* run_route(Request request);
     };
 }
 

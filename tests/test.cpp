@@ -7,21 +7,21 @@
 #include "header.h"
 
 TEST_CASE( "Regex functions", "[regex]") {
-    tinyweb::Header *header = new tinyweb::Header();
+    tinyweb::RequestHeader *header = new tinyweb::RequestHeader();
     
     header->parse("GET http://localhost/ HTTP/1.1");
     REQUIRE( header->get_version() == "1.1");
-    REQUIRE( header->get_method() == GET );
+    REQUIRE( header->get_method() == tinyweb::GET );
     REQUIRE( header->get_uri() == "http://localhost/" );
 
     header->parse("POST * HTTP/2.1");
     REQUIRE( header->get_version() == "2.1");
-    REQUIRE( header->get_method() == POST );
+    REQUIRE( header->get_method() == tinyweb::POST );
     REQUIRE( header->get_uri() == "*" );
 
     header->parse("CONNECT /asdqwe/qweasd/?klasmd=123 HTTP/3.3");
     REQUIRE( header->get_version() == "3.3" );
-    REQUIRE( header->get_method() == CONNECT );
+    REQUIRE( header->get_method() == tinyweb::CONNECT );
     REQUIRE( header->get_uri() == "/asdqwe/qweasd/?klasmd=123" );
 
     header->parse(
@@ -30,9 +30,9 @@ TEST_CASE( "Regex functions", "[regex]") {
         "Other-Header: Sometext\r\n"
         "\r\n"
     );
-    REQUIRE( header->get_header_fields()["Content-Length"] == "500");
-    REQUIRE( header->get_header_fields()["Other-Header"] == "Sometext");
-    REQUIRE( header->get_header_fields().size() == 2);
+    REQUIRE( header->get_fields()["Content-Length"] == "500");
+    REQUIRE( header->get_fields()["Other-Header"] == "Sometext");
+    REQUIRE( header->get_fields().size() == 2);
 
     REQUIRE_THROWS( header->parse("HTTP/") );
     REQUIRE_THROWS( header->parse("1.1") );
