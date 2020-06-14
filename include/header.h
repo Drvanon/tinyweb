@@ -67,7 +67,7 @@ namespace tinyweb{
 
     class ResponseHeader: public IHeader {
         private:
-            int status_code;
+            int status_code = 0;
             std::string reason_phrase;
         public:
             ResponseHeader();
