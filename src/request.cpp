@@ -20,4 +20,8 @@ namespace tinyweb {
     std::string Request::get_uri () {
         return header->get_uri();
     }
+
+    void Request::set_body(std::string body_) {
+        body = body_;
+    }
 }

@@ -29,7 +29,8 @@ namespace tinyweb {
 
         void handle_request_body (
             const boost::system::error_code& error, 
-            size_t bytes_transferred 
+            size_t bytes_transferred,
+            Request* request 
         );
 
         void handle_response (
@@ -37,7 +38,7 @@ namespace tinyweb {
             long unsigned int bytes_transferred
         );
 
-        void make_response (Request request);
+        void make_response (Request* request);
     public:
         Connection(boost::asio::io_context& io_context_, tinyweb::Server *server);
         ~Connection();

@@ -29,7 +29,7 @@ namespace tinyweb {
             Server(boost::asio::io_context& io_context, int port);
             void run();
             void add_route(Route* route);
-            Response* run_route(Request request);
+            Response* run_route(Request* request);
     };
 }
 

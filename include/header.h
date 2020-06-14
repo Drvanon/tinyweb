@@ -38,8 +38,8 @@ namespace tinyweb{
             METHODS method;
         public:
             virtual void parse(std::string string) = 0;
-            virtual IHeader* from_map(std::map<std::string, std::string> map) = 0;
             virtual std::map<std::string, std::string> get_fields() = 0;
+            virtual void set_field(std::string field, std::string body) = 0;
             virtual std::string str() = 0;
             virtual ~IHeader() {}
     };
@@ -59,19 +59,23 @@ namespace tinyweb{
             METHODS get_method();
 
             virtual void parse(std::string string);
-            virtual RequestHeader* from_map(std::map<std::string, std::string> map);
             virtual std::map<std::string, std::string> get_fields();
             virtual std::string str();
+            virtual void set_field(std::string field, std::string body);
     };
 
     class ResponseHeader: public IHeader {
             int status_code;
             std::string reason_phrase;
         public:
+            ResponseHeader();
+            ~ResponseHeader();
             void set_response_code(int code, std::string reason);
+            
             virtual void parse(std::string string);
-            virtual ResponseHeader* from_map(std::map<std::string, std::string> map);
+            
             virtual std::map<std::string, std::string> get_fields();
+            virtual void set_field(std::string field, std::string body);
             virtual std::string str();
     }; 
 }

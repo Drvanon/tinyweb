@@ -14,7 +14,8 @@ namespace tinyweb {
             Request(RequestHeader* header, std::string body);
             RequestHeader* get_header();
             std::string get_uri(); 
-            std::string get_body(); 
+            std::string get_body();
+            void set_body(std::string body);
             std::string str();
     }; // class Request
 } // namespace tinyweb

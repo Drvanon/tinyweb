@@ -11,11 +11,11 @@ namespace tinyweb {
     class Route {
         private:
             std::string route_name;
-            std::function<Response(Request)> action;
+            std::function<Response* (Request* )> action;
         public:
-            Route(std::string route_name, std::function<Response(Request)> action);
+            Route(std::string route_name, std::function<Response* (Request* )> action);
             std::string get_name();
-            virtual Response* run(Request) = 0;
+            Response* run(Request*);
             bool match(std::string url);
     };
 }

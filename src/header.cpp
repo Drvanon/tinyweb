@@ -14,12 +14,6 @@ std::string get_first_line(std::string input) {
 namespace tinyweb {
     RequestHeader::RequestHeader () {}
 
-    RequestHeader* RequestHeader::from_map(std::map<std::string, std::string> map) {
-        RequestHeader* header = (new RequestHeader());
-        header->fields = map;
-        return header;
-    }
-
     void RequestHeader::parse_version(std::string request_line) {
         std::regex version_regex("HTTP\\/([0-9])\\.([0-9])");
         std::smatch sm;
@@ -112,6 +106,13 @@ namespace tinyweb {
         ); 
     }
 
+    void RequestHeader::set_field(std::string field, std::string body) {
+        fields[field] = body;
+    }
+
+    ResponseHeader::ResponseHeader() {}
+    ResponseHeader::~ResponseHeader() {}
+
     void ResponseHeader::set_response_code(int code, std::string reason) {
         if ( 99 > code > 999 ) {
             throw BadResponseException("Status code out of bounds");
@@ -164,6 +165,18 @@ namespace tinyweb {
         } else {
             reason_phrase = reason;
         }
+    }
+
+    void ResponseHeader::parse(std::string string)  {
+        // TODO: Implement
+    }
+
+    std::map<std::string, std::string> ResponseHeader::get_fields() {
+        return fields;
+    }
+
+    void ResponseHeader::set_field(std::string field, std::string body) {
+        fields[field] = body;
     }
 
     std::string ResponseHeader::str() {

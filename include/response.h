@@ -10,9 +10,12 @@ namespace tinyweb {
         private:
             int code;
             std::string body;
-            ResponseHeader* headers;
+            ResponseHeader* header;
         public:
+            Response();
+            Response(ResponseHeader* header_, std::string body_);
             void set_mimetype(std::string type);
+            void set_body(std::string body_);
             std::string str();
     };
 }
