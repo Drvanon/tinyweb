@@ -40,6 +40,7 @@ namespace tinyweb{
             virtual void parse(std::string string) = 0;
             virtual std::map<std::string, std::string> get_fields() = 0;
             virtual void set_field(std::string field, std::string body) = 0;
+            virtual bool has_field(std::string field);
             virtual std::string str() = 0;
             virtual ~IHeader() {}
     };
@@ -65,12 +66,14 @@ namespace tinyweb{
     };
 
     class ResponseHeader: public IHeader {
+        private:
             int status_code;
             std::string reason_phrase;
         public:
             ResponseHeader();
             ~ResponseHeader();
             void set_response_code(int code, std::string reason);
+            int get_response_code();
             
             virtual void parse(std::string string);
             

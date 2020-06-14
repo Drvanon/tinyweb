@@ -1,8 +1,10 @@
 #include <cassert>
 #include <regex>
 #include <string> 
+#include <map>
+#include <iostream>
 
-#include "header.h"
+#include "tinyweb.h"
 
 #define ASSERT_THROWS( expression )             \
     do {                                        \
@@ -14,6 +16,48 @@
         }                                       \
         assert((#expression, thrown));          \
     } while (false)                             \
+
+void test_header () {
+    tinyweb::RequestHeader *header = new tinyweb::RequestHeader();
+    header->set_field("Field1", "Body1");
+    header->set_field("Field2", "Body2");
+    header->set_field("Field3", "Body3");
+    header->set_field("Field4", "Body4");
+    header->set_field("Field5", "Body5");
+
+    std::map<std::string, std::string> expected = {
+        { "Field1", "Body1" },
+        { "Field2", "Body2" },
+        { "Field3", "Body3" },
+        { "Field4", "Body4" },
+        { "Field5", "Body5" },
+    };
+
+    assert( header->get_fields() == expected );
+    assert( header->has_field("Field1") );
+    assert( !header->has_field("Does not exist") );
+}
+
+void test_response() {
+    tinyweb::ResponseHeader* header = new tinyweb::ResponseHeader();
+    header->set_field("Field1", "Body1");
+    header->set_field("Field2", "Body2");
+    tinyweb::Response* response = new tinyweb::Response(
+        header, 
+        "Hello"
+    );
+    std::string a = "ABC";
+    std::string b = "ABC";
+    assert(a == b);    
+    std::string response_string = response->str();
+    std::string expected_string = "HTTP/1.1 200 OK\r\n"
+    "Content-Length: 5\r\n"
+    "Field1: Body1\r\n"
+    "Field2: Body2\r\n"
+    "\r\n"
+    "Hello";
+    assert(response_string == expected_string);
+}
 
 
 void test_regex_functions() {
@@ -57,5 +101,8 @@ void test_regex_functions() {
 
 int main () {
     test_regex_functions();
+    test_header();
+    test_response();
+    std::cout << "All tests ran succesfully!" << std::endl;
     return 0;
 }

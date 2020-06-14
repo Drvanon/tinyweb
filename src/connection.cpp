@@ -12,7 +12,6 @@ namespace tinyweb {
       socket_(io_context), owner(server) {}
 
     void Connection::handle_request (const boost::system::error_code& error, size_t bytes_transferred) {
-        std::cout << "handle_request" << std::endl;
         input_stream.commit(bytes_transferred);
 
         std::string request_string (
@@ -23,7 +22,6 @@ namespace tinyweb {
 
         RequestHeader* header = (new RequestHeader());
         header->parse(request_string);
-        std::cout << "Parsed header" << std::endl;
 
         Request* request = (new Request(header));    
         auto content_length_iter = header->get_fields().find("Content-Length");
@@ -36,7 +34,6 @@ namespace tinyweb {
             }
 
             if (input_stream.in_avail() < content_length) {
-                std::cout << "Request already not in stream." << std::endl;
                 socket_.async_read_some(
                     boost::asio::buffer(input_stream.prepare(content_length)), 
                     boost::bind(
@@ -56,7 +53,6 @@ namespace tinyweb {
     }
 
     void Connection::handle_request_body (const boost::system::error_code& error, size_t bytes_transferred, Request* request) {
-        std::cout << "handle_request_body" << std::endl;
         input_stream.commit(bytes_transferred);
         std::string body (
             buffers_begin(input_stream.data()), 
@@ -69,9 +65,7 @@ namespace tinyweb {
     }
 
     void Connection::make_response (Request* request) {
-        std::cout << "In make_response" << std::endl;
         Response* response = owner->run_route(request);
-        std::cout << "Make: " << response << std::endl;
 
         socket_.async_write_some(
             boost::asio::buffer(response->str()), 

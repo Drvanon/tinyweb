@@ -28,7 +28,6 @@ namespace tinyweb {
         for (Route* route: routes) {
             if (route->match(request->get_uri())){
                 Response* response = route->run(request);
-                std::cout << "Run: " << response << std::endl;
                 return response;
             }
         }
@@ -37,7 +36,6 @@ namespace tinyweb {
         header->set_response_code(404, "");
         std::string text = "Page not found.";
         Response* route_not_found = new Response(header, text);
-        header->set_field("Content-Length", std::to_string(text.size()));
         return route_not_found;
     }
 }

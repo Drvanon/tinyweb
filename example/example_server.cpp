@@ -6,12 +6,10 @@
 #include "tinyweb.h"
 
 tinyweb::Response* action(tinyweb::Request* request) {
-    std::cout << "In custom run" << std::endl;
     tinyweb::ResponseHeader* header = new tinyweb::ResponseHeader();
     header->set_response_code(200, "");
     std::string response_text = "Hello World!";
     tinyweb::Response* response = new tinyweb::Response(header, response_text);
-    header->set_field("Content-Length", std::to_string(response_text.size()));
     
     return response;
 }

@@ -12,6 +12,10 @@ std::string get_first_line(std::string input) {
 }
 
 namespace tinyweb {
+    bool IHeader::has_field(std::string field) {
+        return fields.find(field) != fields.end();
+    }
+
     RequestHeader::RequestHeader () {}
 
     void RequestHeader::parse_version(std::string request_line) {
@@ -113,7 +117,12 @@ namespace tinyweb {
     ResponseHeader::ResponseHeader() {}
     ResponseHeader::~ResponseHeader() {}
 
+    int  ResponseHeader::get_response_code() {
+        return status_code;
+    }
+
     void ResponseHeader::set_response_code(int code, std::string reason) {
+        status_code = code;
         if ( 99 > code > 999 ) {
             throw BadResponseException("Status code out of bounds");
         }

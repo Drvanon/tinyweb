@@ -8,7 +8,6 @@
 namespace tinyweb {
     class Response {
         private:
-            int code;
             std::string body;
             ResponseHeader* header;
         public:
