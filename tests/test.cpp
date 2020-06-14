@@ -8,12 +8,12 @@
     do {                                        \
         bool thrown = false;                    \
         try {                                   \
-            expression;                         \ 
-        } catch (...) {     \
+            expression;                         \
+        } catch (...) {                         \
             thrown = true;                      \
         }                                       \
-        assert(!thrown);                        \
-    } while (false)                             
+        assert((#expression, thrown));          \
+    } while (false)                             \
 
 
 void test_regex_functions() {
@@ -44,7 +44,6 @@ void test_regex_functions() {
     assert( header->get_fields()["Other-Header"] == "Sometext");
     assert( header->get_fields().size() == 2);
 
-    bool error_thrown = false;
     ASSERT_THROWS( header->parse("HTTP/") );
     ASSERT_THROWS( header->parse("1.1") );
     ASSERT_THROWS( header->parse("12.1") );
@@ -56,6 +55,7 @@ void test_regex_functions() {
     ASSERT_THROWS( header->parse("GET /aqwe/qwe?asdd=asd HTTP//1.2") );
 }
 
-void main () {
+int main () {
     test_regex_functions();
+    return 0;
 }
