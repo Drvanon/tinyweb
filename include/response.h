@@ -19,9 +19,29 @@ namespace tinyweb {
             ResponseHeader* header;
         public:
             Response();
+            /**
+             * @brief Construct a new Response object
+             * 
+             * @param header_ 
+             * @param body_ 
+             */
             Response(ResponseHeader* header_, std::string body_);
             void set_mimetype(std::string type);
+            /**
+             * @brief Set the body of the response.
+             * 
+             * @param body_ 
+             */
             void set_body(std::string body_);
+            /**
+             * @brief Get the string representation of this request.
+             * 
+             * Note that the "Content-Length" header field will be set automatically
+             * if it is not set already. Similarly, if the status code is not set 
+             * manually it will be set to "200 OK". These changes are persistent.
+             * 
+             * @return std::string 
+             */
             std::string str();
     };
 }

@@ -51,7 +51,15 @@ struct BadResponseException : public std::exception
 namespace tinyweb{
     class IHeader {
         protected:
+            /**
+             * @brief Map to represent the HTTP fields.
+             * 
+             */
             std::map<std::string, std::string> fields;
+            /**
+             * @brief Method that this route accepts.
+             * 
+             */
             METHODS method;
         public:
             /**
@@ -161,6 +169,13 @@ namespace tinyweb{
              * @param reason 
              */
             void set_response_code(int code, std::string reason);
+            /**
+             * @brief Get the response code if it has been set.
+             * 
+             * The response code is initialized to 0.
+             * 
+             * @return int 
+             */
             int get_response_code();
             
             virtual std::map<std::string, std::string> get_fields();
@@ -168,10 +183,6 @@ namespace tinyweb{
 
             /**
              * @brief Get the string representation of this HTTP response.
-             * 
-             * Note that the "Content-Length" header field will be set automatically
-             * if it is not set already. Similarly, if the status code is not set 
-             * manually it will be set to "200 OK". These changes are persistent.
              * 
              * @return std::string 
              */
