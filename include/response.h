@@ -6,6 +6,13 @@
 #include "header.h" 
 
 namespace tinyweb {
+    /**
+     * @brief Response from the server (to a request).
+     * 
+     * When a route (tinyweb::Route) is requested (tinyweb::Request) on 
+     * the server (tinyweb::Server), a response should be created. This
+     * is a one to one representation of an HTTP response.  
+     */
     class Response {
         private:
             std::string body;

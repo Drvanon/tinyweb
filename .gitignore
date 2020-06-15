@@ -4,3 +4,5 @@ CMakeCache.txt
 CMakeFiles/
 .vscode
 lib/*
+docs/html/*
+docs/latex/*

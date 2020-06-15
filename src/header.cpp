@@ -24,7 +24,7 @@ namespace tinyweb {
         std::regex_search (request_line, sm, version_regex);
 
         if (sm.size() != 3) {
-            throw InvalidHeaderException("RequestHeader invalid: HTTP version corrupt.");
+            throw InvalidHeaderException("RequestHeader invalid: HTTP version corrupt. '" + request_line +"'");
         }
 
         // First match is "HTTP/1.1", the ones after that are the major and minor version.
@@ -69,7 +69,7 @@ namespace tinyweb {
         return this->uri;
     }
 
-    void RequestHeader::parse_header_fields(std::string line) {
+    void RequestHeader::parse_header_field(std::string line) {
         std::regex header_regex ("([\\w-]*): (.*)");
         std::smatch sm;
         std::regex_search (line, sm, header_regex);
@@ -95,11 +95,11 @@ namespace tinyweb {
         parse_uri(line);
 
         while (getline(f, line)) {
-            if (line == "\r") {
+            if (line == "\r" || line == "\r\n") {
                 break;
             }
 
-            parse_header_fields(line);
+            parse_header_field(line);
         }
     }
 
@@ -174,10 +174,6 @@ namespace tinyweb {
         } else {
             reason_phrase = reason;
         }
-    }
-
-    void ResponseHeader::parse(std::string string)  {
-        // TODO: Implement
     }
 
     std::map<std::string, std::string> ResponseHeader::get_fields() {
